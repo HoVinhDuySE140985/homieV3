@@ -110,7 +110,7 @@ public class ItemController {
         return ResponseEntity.ok().body(responseDTO);
     }
 
-    @PostMapping ("get-All-Item")
+    @GetMapping ("get-All-Item")
     @PreAuthorize("hasRole('OWNER')")
     public ResponseEntity<ResponseDTO> getAllItem(){
         ResponseDTO responseDTO = new ResponseDTO();
