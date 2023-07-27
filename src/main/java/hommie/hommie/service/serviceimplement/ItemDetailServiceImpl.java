@@ -110,6 +110,7 @@ public class ItemDetailServiceImpl implements ItemDetailService {
                    .price(itemDetail.getPrice())
                    .description(itemDetail.getDescription())
                    .listImage(iResult)
+                   .status(itemDetail.getStatus())
                    .build();
             list.add(itemDetailResponseDTO);
         }

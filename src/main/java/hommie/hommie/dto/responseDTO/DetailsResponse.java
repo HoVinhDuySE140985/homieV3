@@ -19,4 +19,5 @@ public class DetailsResponse {
     private BigDecimal price;
     private String description;
     private List<ItemImageResponseDTO> listImage;
+    private String status;
 }
