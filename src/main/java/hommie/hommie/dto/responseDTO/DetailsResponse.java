@@ -12,7 +12,7 @@ import java.util.List;
 @Builder
 @Data
 public class DetailsResponse {
-
+    private Long id;
     private String size;
     private String color;
     private int quantity;

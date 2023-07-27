@@ -103,6 +103,7 @@ public class ItemDetailServiceImpl implements ItemDetailService {
                 iResult.add(imageResponseDTO);
             }
            DetailsResponse itemDetailResponseDTO = DetailsResponse.builder()
+                   .id(itemDetail.getId())
                    .size(itemDetail.getSize())
                    .color(itemDetail.getColor())
                    .quantity(itemDetail.getQuantity())
