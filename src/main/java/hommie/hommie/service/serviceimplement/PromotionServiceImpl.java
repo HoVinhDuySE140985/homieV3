@@ -77,19 +77,21 @@ public class PromotionServiceImpl implements PromotionService {
             throw new ResponseStatusException(HttpStatus.valueOf(400), "Hiện Chưa Voucher Có Thể Sử Dụng");
         } else {
             for (Promotion promotion : promotionList) {
-                PromotionResponseDTO promotionResponseDTO = PromotionResponseDTO.builder()
-                        .id(promotion.getId())
-                        .type(promotion.getType())
-                        .title(promotion.getTitle())
-                        .image(promotion.getImage())
-                        .code(promotion.getCode())
-                        .value(promotion.getValue())
-                        .dateStart(promotion.getDateStart())
-                        .dateExp(promotion.getDateExp())
-                        .description(promotion.getDescription())
-                        .status(promotion.getStatus())
-                        .build();
-                list.add(promotionResponseDTO);
+                if (promotion.getStatus().equals("ACTIVE")){
+                    PromotionResponseDTO promotionResponseDTO = PromotionResponseDTO.builder()
+                            .id(promotion.getId())
+                            .type(promotion.getType())
+                            .title(promotion.getTitle())
+                            .image(promotion.getImage())
+                            .code(promotion.getCode())
+                            .value(promotion.getValue())
+                            .dateStart(promotion.getDateStart())
+                            .dateExp(promotion.getDateExp())
+                            .description(promotion.getDescription())
+                            .status(promotion.getStatus())
+                            .build();
+                    list.add(promotionResponseDTO);
+                }
             }
         }
         return list;

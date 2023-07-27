@@ -298,8 +298,9 @@ public class ItemServiceImpl implements ItemService {
         List<ItemResponseDTO> list = new ArrayList<>();
         List<Item> itemList =  itemRepo.findAll();
         for (Item item: itemList) {
-            SubCategory subCategory = subCategoryRepo.findById(item.getSubCategory().getId()).get();
-            Category category = categoryRepo.findById(subCategory.getCategory().getId()).get();
+//            if (item.getStatus().equals("ACTIVE")){
+                SubCategory subCategory = subCategoryRepo.findById(item.getSubCategory().getId()).get();
+                Category category = categoryRepo.findById(subCategory.getCategory().getId()).get();
                 List<ItemDetailResponseDTO> dtos = new ArrayList<>();
                 List<ItemDetail> details = itemDetailRepo.findAllByItem_Id(item.getId());
                 if (details.size()==0){
@@ -337,10 +338,11 @@ public class ItemServiceImpl implements ItemService {
                         .subName(subCategory.getName())
                         .cateId(category.getId())
                         .cateName(category.getName())
+                        .status(item.getStatus())
                         .checkNumber(check)
                         .build();
                 list.add(itemResponseDTO);
-
+//            }
         }
         return list;
     }

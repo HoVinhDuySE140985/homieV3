@@ -26,6 +26,7 @@ public class ItemResponseDTO {
     private String subName;
     private Long cateId;
     private String cateName;
+    private String status;
     private Boolean checkNumber;
     private int buyNumber;
 }
