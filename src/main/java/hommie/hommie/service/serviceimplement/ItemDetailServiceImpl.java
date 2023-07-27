@@ -46,11 +46,20 @@ public class ItemDetailServiceImpl implements ItemDetailService {
         itemDetailRepo.save(detail);
         List<ItemImageRequestDTO> listI = itemDetailRequestDTO.getImageLists();
         for (ItemImageRequestDTO dto: listI) {
-            ItemImage image = ItemImage.builder()
-                    .image(dto.getImage())
-                    .itemDetail(detail)
-                    .build();
-            itemImageRepo.save(image);
+            if (dto.getImage().equals(null)){
+                String i = "https://taiminh.edu.vn/phan-mem-dowload-mien-phi/imager_1029.jpg";
+                ItemImage image = ItemImage.builder()
+                        .image(i)
+                        .itemDetail(detail)
+                        .build();
+                itemImageRepo.save(image);
+            }else {
+                ItemImage image = ItemImage.builder()
+                        .image(dto.getImage())
+                        .itemDetail(detail)
+                        .build();
+                itemImageRepo.save(image);
+            }
         }
         List<ItemImageResponseDTO> list = new ArrayList<>();
         List<ItemImage> imageList = itemImageRepo.findAllByItemDetail_Id(detail.getId());
