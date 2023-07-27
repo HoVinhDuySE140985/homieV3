@@ -27,10 +27,6 @@ public class PromotionServiceImpl implements PromotionService {
 
     @Override
     public PromotionResponseDTO createPromotion(PromotionRequestDTO promotionRequestDTO) {
-        String status = "DECATIVE";
-        if (promotionRequestDTO.getDateStart().equals(LocalDate.now())) {
-            status = "ACTIVE";
-        }
         String code = Utilities.randomAlphaNumeric(7);
         Promotion promotion = Promotion.builder()
                 .type(promotionRequestDTO.getType())
@@ -41,7 +37,7 @@ public class PromotionServiceImpl implements PromotionService {
                 .dateStart(promotionRequestDTO.getDateStart())
                 .dateExp(promotionRequestDTO.getDateExp())
                 .description(promotionRequestDTO.getDescription())
-                .status(status)
+                .status("ACTIVE")
                 .build();
         promotion = promotionRepo.save(promotion);
         System.out.println(promotion.getType());
