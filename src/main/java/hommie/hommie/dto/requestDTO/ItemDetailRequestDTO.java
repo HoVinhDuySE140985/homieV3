@@ -18,5 +18,5 @@ public class ItemDetailRequestDTO {
     private BigDecimal price;
     private Integer quantity;
     private String description;
-    private List<ItemImageRequestDTO> imageLists;
+    private List<String> imageLists;
 }

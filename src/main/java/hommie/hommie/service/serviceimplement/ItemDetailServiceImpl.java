@@ -44,9 +44,9 @@ public class ItemDetailServiceImpl implements ItemDetailService {
                 .status("ACTIVE")
                 .build();
         itemDetailRepo.save(detail);
-        List<ItemImageRequestDTO> listI = itemDetailRequestDTO.getImageLists();
-        for (ItemImageRequestDTO dto: listI) {
-            if (dto.getImage().equals(null)){
+        List<String> listI = itemDetailRequestDTO.getImageLists();
+        for (String im: listI) {
+            if (im.equals(null)){
                 String i = "https://taiminh.edu.vn/phan-mem-dowload-mien-phi/imager_1029.jpg";
                 ItemImage image = ItemImage.builder()
                         .image(i)
@@ -55,7 +55,7 @@ public class ItemDetailServiceImpl implements ItemDetailService {
                 itemImageRepo.save(image);
             }else {
                 ItemImage image = ItemImage.builder()
-                        .image(dto.getImage())
+                        .image(im)
                         .itemDetail(detail)
                         .build();
                 itemImageRepo.save(image);
