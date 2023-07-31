@@ -28,5 +28,5 @@ public interface OrderService {
 
     List<ItemInOrderResponseDTO> getAllItemInOrder(String orderCode);
 
-    UserInOrderResponseDTO getAllUserInfoInOrder(String orderCode);
+//    UserInOrderResponseDTO getAllUserInfoInOrder(String orderCode);
 }

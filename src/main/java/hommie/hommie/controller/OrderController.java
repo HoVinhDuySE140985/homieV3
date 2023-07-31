@@ -70,13 +70,13 @@ public class OrderController {
         return ResponseEntity.ok().body(responseDTO);
     }
 
-    @PostMapping("get-all-user-info-in-order")
-    @PreAuthorize("hasRole('OWNER')")
-    public ResponseEntity<ResponseDTO> getAllUserInfoInOrder(@RequestParam @Valid String orderCode){
-        ResponseDTO responseDTO = new ResponseDTO();
-        responseDTO.setData(orderService.getAllUserInfoInOrder(orderCode));
-        return ResponseEntity.ok().body(responseDTO);
-    }
+//    @PostMapping("get-all-user-info-in-order")
+//    @PreAuthorize("hasRole('OWNER')")
+//    public ResponseEntity<ResponseDTO> getAllUserInfoInOrder(@RequestParam @Valid String orderCode){
+//        ResponseDTO responseDTO = new ResponseDTO();
+//        responseDTO.setData(orderService.getAllUserInfoInOrder(orderCode));
+//        return ResponseEntity.ok().body(responseDTO);
+//    }
 
     @PostMapping("get-all-order-By-Status")
     @PreAuthorize("hasRole('OWNER')")
