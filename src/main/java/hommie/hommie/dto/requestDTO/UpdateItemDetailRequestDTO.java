@@ -17,6 +17,5 @@ import java.util.List;
 public class UpdateItemDetailRequestDTO {
     private Long itemDetailId;
     private BigDecimal price;
-    private Integer quantity;
     List<ItemImageResponseDTO> listImage;
 }

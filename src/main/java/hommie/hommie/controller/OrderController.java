@@ -12,6 +12,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.security.PermitAll;
+import javax.validation.Valid;
 import java.math.BigDecimal;
 import java.util.List;
 
@@ -71,10 +72,9 @@ public class OrderController {
 
     @PostMapping("get-all-user-info-in-order")
     @PreAuthorize("hasRole('OWNER')")
-    public ResponseEntity<ResponseDTO> getAllUserInfoInOrder(){
+    public ResponseEntity<ResponseDTO> getAllUserInfoInOrder(@RequestParam @Valid String orderCode){
         ResponseDTO responseDTO = new ResponseDTO();
-        responseDTO.setData(orderService.getAllOrder());
-        responseDTO.setResult(orderService.getAllOrder().size());
+        responseDTO.setData(orderService.getAllUserInfoInOrder(orderCode));
         return ResponseEntity.ok().body(responseDTO);
     }
 

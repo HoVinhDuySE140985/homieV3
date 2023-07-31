@@ -27,4 +27,6 @@ public interface OrderService {
     List<OrderDetailResponseDTO> searchOrderByOrderCode(String orderCode);
 
     List<ItemInOrderResponseDTO> getAllItemInOrder(String orderCode);
+
+    UserInOrderResponseDTO getAllUserInfoInOrder(String orderCode);
 }

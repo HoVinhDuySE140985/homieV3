@@ -77,7 +77,7 @@ public class PromotionServiceImpl implements PromotionService {
             throw new ResponseStatusException(HttpStatus.valueOf(400), "Hiện Chưa Voucher Có Thể Sử Dụng");
         } else {
             for (Promotion promotion : promotionList) {
-                if (promotion.getStatus().equals("ACTIVE")){
+                if (promotion.getStatus().equals("ACTIVE") && promotion.getQuantity()>=1){
                     PromotionResponseDTO promotionResponseDTO = PromotionResponseDTO.builder()
                             .id(promotion.getId())
                             .type(promotion.getType())

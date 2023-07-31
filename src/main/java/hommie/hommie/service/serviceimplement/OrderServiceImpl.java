@@ -91,6 +91,8 @@ public class OrderServiceImpl implements OrderService {
                 throw  new ResponseStatusException(HttpStatus.valueOf(400),"Voucher Đã Hết Hạn");
             }
             if (promotion != null && promotion.getStatus().equalsIgnoreCase("ACTIVE")){
+                promotion.setQuantity(promotion.getQuantity()-1);
+                promotionRepo.save(promotion);
                 if (promotion.getType().equalsIgnoreCase("Mua Hàng")){
                     discountPrice = totalPrice.multiply(BigDecimal.valueOf(promotion.getValue()));
                     if (discountPrice.compareTo(BigDecimal.valueOf(promotion.getMaxValueDiscount()))>0){
@@ -100,6 +102,7 @@ public class OrderServiceImpl implements OrderService {
                     }
 
                 }else if(promotion.getType().equalsIgnoreCase("Vận Chuyển")){
+
                     totalPrice = totalPrice.add(feeShip).subtract(BigDecimal.valueOf(promotion.getValue()));
                 }
                 Order order = Order.builder()
@@ -449,5 +452,20 @@ public class OrderServiceImpl implements OrderService {
             list.add(itemInOrderResponseDTO);
         }
         return list;
+    }
+
+    @Override
+    public UserInOrderResponseDTO getAllUserInfoInOrder(String orderCode) {
+        Order order = orderRepo.findByOrderCode(orderCode);
+        User user = userRepo.findById(order.getUser().getId()).get();
+        UserInOrderResponseDTO userInOrderResponseDTO = UserInOrderResponseDTO.builder()
+                .orderId(order.getId())
+                .emailOrder(user.getEmail())
+                .userOrder(user.getName())
+                .userReceive(order.getUserReceive())
+                .phoneNumber(order.getPhoneNumber())
+                .shipAddress(order.getShipAddress())
+                .build();
+        return userInOrderResponseDTO;
     }
 }

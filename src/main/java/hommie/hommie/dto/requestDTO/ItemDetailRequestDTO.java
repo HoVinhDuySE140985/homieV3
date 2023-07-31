@@ -16,7 +16,6 @@ public class ItemDetailRequestDTO {
     private String color;
     private String size;
     private BigDecimal price;
-    private Integer quantity;
     private String description;
     private List<String> imageLists;
 }

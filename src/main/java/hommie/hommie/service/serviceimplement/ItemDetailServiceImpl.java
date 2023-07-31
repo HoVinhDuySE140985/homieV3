@@ -39,7 +39,6 @@ public class ItemDetailServiceImpl implements ItemDetailService {
                 .color(itemDetailRequestDTO.getColor())
                 .size(itemDetailRequestDTO.getSize())
                 .price(itemDetailRequestDTO.getPrice())
-                .quantity(itemDetailRequestDTO.getQuantity())
                 .description(itemDetailRequestDTO.getDescription())
                 .status("ACTIVE")
                 .build();
@@ -122,7 +121,6 @@ public class ItemDetailServiceImpl implements ItemDetailService {
         String mess = "Cập Nhập Thất Bại";
         ItemDetail detail = itemDetailRepo.findById(updateItemRequestDTO.getItemDetailId()).get();
         detail.setPrice(updateItemRequestDTO.getPrice());
-        detail.setQuantity(updateItemRequestDTO.getQuantity());
         itemDetailRepo.save(detail);
         List<ItemImage> imageList = itemImageRepo.findAllByItemDetail_Id(detail.getId());
         List<ItemImageResponseDTO> dtos = updateItemRequestDTO.getListImage();
