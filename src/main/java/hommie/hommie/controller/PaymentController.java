@@ -107,7 +107,7 @@ public class PaymentController {
             e.printStackTrace();
         }
         HttpHeaders headers = new HttpHeaders();
-        headers.setLocation(URI.create("https://www.youtube.com/")); // deploy lên thì chạy về trang cần trả về
+        headers.setLocation(URI.create("https://hommie.page.link/success")); // deploy lên thì chạy về trang cần trả về
         return new ResponseEntity<>(headers, HttpStatus.MOVED_PERMANENTLY);
     }
 

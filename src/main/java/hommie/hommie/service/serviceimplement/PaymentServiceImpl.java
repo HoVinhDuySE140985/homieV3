@@ -22,7 +22,7 @@ public class PaymentServiceImpl implements PaymentService {
     public ResponseEntity<MomoResponse> getPaymentMomoV1(String codeOrder, BigDecimal feeShip, Long userId, BigDecimal totalPrice, String paymentType, String shipAddress, String phoneNumber, String promoCode,String userReceive) {
         // request url
         String url = Common.MOMO_URI;
-        String redirectUrl = Common.REDIRECT_URL_MOMO +  "/" +userId  + "/" +  feeShip + "/" + paymentType + "/"  + shipAddress+ "/"  +phoneNumber + "/"  + promoCode;
+        String redirectUrl = Common.REDIRECT_URL_MOMO +  "/" +userId  + "/" +  feeShip + "/" + paymentType + "/"  + shipAddress+ "/"  +phoneNumber + "/"  + promoCode + "/" + userReceive;
         // create an instance of RestTemplate
         RestTemplate restTemplate = new RestTemplate();
 
