@@ -32,6 +32,7 @@ public class Order {
     private BigDecimal totalPrice;
     private String paymentType;
     private String cancelReason;
+    private String userReceive;
 
     @JsonIgnore
     @OneToMany(mappedBy = "order")

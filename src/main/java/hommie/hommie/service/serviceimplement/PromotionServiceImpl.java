@@ -34,14 +34,15 @@ public class PromotionServiceImpl implements PromotionService {
                 .image(promotionRequestDTO.getImage())
                 .code(code)
                 .value(promotionRequestDTO.getValue())
+                .minValueOrder(promotionRequestDTO.getMinValueOrder())
+                .maxValueDiscount(promotionRequestDTO.getMaxValueDiscount())
+                .quantity(promotionRequestDTO.getQuantity())
                 .dateStart(promotionRequestDTO.getDateStart())
                 .dateExp(promotionRequestDTO.getDateExp())
                 .description(promotionRequestDTO.getDescription())
                 .status("ACTIVE")
                 .build();
         promotion = promotionRepo.save(promotion);
-        System.out.println(promotion.getType());
-        System.out.println(promotion.getCode());
         PromotionResponseDTO promotionResponseDTO = PromotionResponseDTO.builder()
                 .id(promotion.getId())
                 .title(promotion.getTitle())
@@ -49,6 +50,9 @@ public class PromotionServiceImpl implements PromotionService {
                 .image(promotion.getImage())
                 .code(promotion.getCode())
                 .value(promotion.getValue())
+                .minValueOrder(promotion.getMinValueOrder())
+                .maxValueDiscount(promotion.getMaxValueDiscount())
+                .quantity(promotion.getQuantity())
                 .dateStart(promotion.getDateStart())
                 .dateExp(promotion.getDateExp())
                 .description(promotion.getDescription())
@@ -58,7 +62,7 @@ public class PromotionServiceImpl implements PromotionService {
     }
 
     @Override
-    public List<PromotionResponseDTO> getAllPromotion(Long userId) { // sua
+    public List<PromotionResponseDTO> getAllPromotion(Long userId) {
         List<PromotionResponseDTO> list = new ArrayList<>();
         List<Promotion> promotionList = promotionRepo.findAll();
         if(userId!=null){

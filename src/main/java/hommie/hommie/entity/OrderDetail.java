@@ -20,8 +20,8 @@ public class OrderDetail {
     private Long id;
     private BigDecimal price;
     private Integer quantity;
-    private String color;
-    private String size;
+//    private String color;
+//    private String size;
 
 
 

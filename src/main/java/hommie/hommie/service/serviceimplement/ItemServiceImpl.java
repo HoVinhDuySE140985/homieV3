@@ -47,60 +47,16 @@ public class ItemServiceImpl implements ItemService {
                 .material(createItemRequestDTO.getMaterial())
                 .createDate(LocalDate.now())
                 .avatar(createItemRequestDTO.getAvatar())
-                .status("ACTIVE")
+                .status("Còn Hàng")
                 .subCategory(subCategory)
                 .build();
         itemRepo.save(item);
-//        List<ItemDetailRequestDTO> dtos = createItemRequestDTO.getItemDetails();
-//        for (ItemDetailRequestDTO dto : dtos) {
-//            ItemDetail detail = ItemDetail.builder()
-//                    .color(dto.getColor())
-//                    .size(dto.getSize())
-//                    .price(dto.getPrice())
-//                    .quantity(dto.getQuantity())
-//                    .description(dto.getDescription())
-//                    .status("ACTIVE")
-//                    .item(item)
-//                    .build();
-//            itemDetailRepo.save(detail);
-//            List<ItemImageRequestDTO> listImage = dto.getImageLists();
-//            for (ItemImageRequestDTO i : listImage) {
-//                ItemImage itemImage = ItemImage.builder()
-//                        .image(i.getImage())
-//                        .itemDetail(detail)
-//                        .build();
-//                itemImageRepo.save(itemImage);
-//            }
-//            List<ItemDetailResponseDTO> listDetails = new ArrayList<>();
-//            List<ItemDetail> details = itemDetailRepo.findAllByItem_Id(item.getId());
-//            for (ItemDetail itemDetail : details) {
-//                List<ItemImageResponseDTO> list = new ArrayList<>();
-//                List<ItemImage> itemImages = itemImageRepo.findAllByItemDetail_Id(itemDetail.getId());
-//                for (ItemImage itemImage : itemImages) {
-//                    ItemImageResponseDTO imageResponseDTO = ItemImageResponseDTO.builder()
-//                            .id(itemImage.getId())
-//                            .image(itemImage.getImage())
-//                            .build();
-//                    list.add(imageResponseDTO);
-//                }
-//                ItemDetailResponseDTO itemDetailResponseDTO = ItemDetailResponseDTO.builder()
-//                        .size(itemDetail.getSize())
-//                        .color(itemDetail.getColor())
-//                        .quantity(itemDetail.getQuantity())
-//                        .itemImages(list)
-//                        .price(itemDetail.getPrice())
-//                        .description(itemDetail.getDescription())
-//                        .build();
-//                listDetails.add(itemDetailResponseDTO);
-//            }
             itemResponseDTO = CreateItemResponseDTO.builder()
                     .id(item.getId())
                     .name(item.getName())
                     .material(item.getMaterial())
-//                    .details(listDetails)
                     .subId(item.getSubCategory().getId())
                     .build();
-//        }
         return itemResponseDTO;
     }
 
@@ -124,12 +80,12 @@ public class ItemServiceImpl implements ItemService {
         Item item = itemRepo.findById(itemId).get();
         List<ItemDetail> details = itemDetailRepo.findAllByItem_Id(item.getId());
         if (details.size()==0){
-            if (item.getStatus().equalsIgnoreCase("ACTIVE")) {
-                item.setStatus("DEACTIVE");
+            if (item.getStatus().equalsIgnoreCase("Còn Hàng")) {
+                item.setStatus("Tạm Hết Hàng");
                 itemRepo.save(item);
                 mess = "Cập Nhập Thành Công";
-            } else {
-                item.setStatus("ACTIVE");
+            } else if (item.getStatus().equalsIgnoreCase("Tạm Hết Hàng")){
+                item.setStatus("Ngừng Kinh Doanh");
                 itemRepo.save(item);
                 mess = "Cập Nhập Thành Công";
             }
@@ -298,7 +254,6 @@ public class ItemServiceImpl implements ItemService {
         List<ItemResponseDTO> list = new ArrayList<>();
         List<Item> itemList =  itemRepo.findAll();
         for (Item item: itemList) {
-//            if (item.getStatus().equals("ACTIVE")){
                 SubCategory subCategory = subCategoryRepo.findById(item.getSubCategory().getId()).get();
                 Category category = categoryRepo.findById(subCategory.getCategory().getId()).get();
                 List<ItemDetailResponseDTO> dtos = new ArrayList<>();
@@ -342,7 +297,6 @@ public class ItemServiceImpl implements ItemService {
                         .checkNumber(check)
                         .build();
                 list.add(itemResponseDTO);
-//            }
         }
         return list;
     }

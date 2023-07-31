@@ -17,7 +17,10 @@ public class OrderResponseDTO {
     private String orderCode;
     private LocalDate orderDate;
     private BigDecimal totalPrice;
+    private BigDecimal discountPrice;
+    private BigDecimal feeShip;
     private String phoneNumber;
     private String shipAddress;
+    private String userReceive;
     private String paymentType;
 }

@@ -20,16 +20,19 @@ public class Promotion {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String image;
-    @Column(length = 80)
+    @Column(length = 50)
     private String title;
     private String type;
     private String code;
     private LocalDate dateStart;
     private LocalDate dateExp;
-    private Double value;
+    private float value;
     @Column(length = 500)
     private String description;
     private String status;
+    private float minValueOrder;
+    private float maxValueDiscount;
+    private int quantity;
 
     @JsonIgnore
     @OneToMany(mappedBy = "promotion")

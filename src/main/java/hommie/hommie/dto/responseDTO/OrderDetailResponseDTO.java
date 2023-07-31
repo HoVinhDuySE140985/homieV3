@@ -20,6 +20,9 @@ public class OrderDetailResponseDTO {
     private List<ItemDetailOrderResponse> listItems;
     private BigDecimal totalPrice;
     private String orderStatus;
+    private String userReceive;
     private String phoneNumber;
     private String address;
+//    private BigDecimal discountPrice;
+//    private BigDecimal feeShip;
 }

@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.math.BigDecimal;
@@ -57,34 +58,33 @@ public class OrderServiceImpl implements OrderService {
     @Autowired
     NotificationService notificationService;
     @Override
-    public ResponseEntity<MomoResponse> createLinkOrder(BigDecimal feeShip, BigDecimal totalPrice, String paymentType, String shipAddress, Long userId, String phoneNumber, String promoCode) {
+    public ResponseEntity<MomoResponse> createLinkOrder(BigDecimal feeShip, BigDecimal totalPrice, String paymentType, String shipAddress, Long userId, String phoneNumber, String promoCode,String userReceive) {
         ResponseEntity<MomoResponse> response = null;
         String orderCode = Utilities.randomAlphaNumeric(10);
-        response = paymentService.getPaymentMomoV1(orderCode,feeShip,userId,totalPrice,paymentType,shipAddress,phoneNumber,promoCode);
+        response = paymentService.getPaymentMomoV1(orderCode,feeShip,userId,totalPrice,paymentType,shipAddress,phoneNumber,promoCode,userReceive);
         return response;
     }
 
     @Override
-    public OrderResponseDTO createOrder(Long userId, BigDecimal feeShip, String paymentType,String shipAddress, String phoneNumber, String promoCode) {
-        System.out.println(userId);
+    public OrderResponseDTO createOrder(Long userId, BigDecimal feeShip, String paymentType,String shipAddress, String phoneNumber, String promoCode, String userReceive) {
         OrderResponseDTO orderResponseDTO = null;
-        Boolean check = false;
         String orderCode = Utilities.randomAlphaNumeric(10);
         BigDecimal totalPrice = BigDecimal.valueOf(0) ;
+        BigDecimal discountPrice = BigDecimal.valueOf(0);
         List<CartItem> cartItemList = cartItemRepo.findAllByUser_Id(userId);
         for (CartItem cartItem: cartItemList) {
             CartItem _cartItem = cartItemRepo.findById(cartItem.getId()).get();
             ItemDetail detail = itemDetailRepo.findById(_cartItem.getItemDetail().getId()).get();
             totalPrice = totalPrice.add(detail.getPrice().multiply(BigDecimal.valueOf(cartItem.getQuantity())));
-            if (detail.getQuantity() >= cartItem.getQuantity()){
-                check = true;
-                detail.setQuantity(detail.getQuantity()-cartItem.getQuantity());
-                itemDetailRepo.save(detail);
-            }else {
-                throw new ResponseStatusException(HttpStatus.valueOf(400),"Hết Hàng Hoặc Không Đủ Số Lượng Yêu Cầu");
-            }
+//            if (detail.getQuantity() >= cartItem.getQuantity()){
+//                check = true;
+//                detail.setQuantity(detail.getQuantity()-cartItem.getQuantity());
+//                itemDetailRepo.save(detail);
+//            }else {
+//                throw new ResponseStatusException(HttpStatus.valueOf(400),"Hết Hàng Hoặc Không Đủ Số Lượng Yêu Cầu");
+//            }
         }
-        if (check == true){
+//        if (check == true){
             User user = userRepo.findById(userId).get();
             Promotion promotion = promotionRepo.findByCode(promoCode);
             if (promotion!=null && promotion.getStatus().equalsIgnoreCase("DEACTIVE")){
@@ -92,7 +92,13 @@ public class OrderServiceImpl implements OrderService {
             }
             if (promotion != null && promotion.getStatus().equalsIgnoreCase("ACTIVE")){
                 if (promotion.getType().equalsIgnoreCase("Mua Hàng")){
-                    totalPrice = totalPrice.subtract(totalPrice.multiply(BigDecimal.valueOf(promotion.getValue()))).add(feeShip);
+                    discountPrice = totalPrice.multiply(BigDecimal.valueOf(promotion.getValue()));
+                    if (discountPrice.compareTo(BigDecimal.valueOf(promotion.getMaxValueDiscount()))>0){
+                        totalPrice = totalPrice.subtract(BigDecimal.valueOf(promotion.getMaxValueDiscount())).add(feeShip);
+                    }else {
+                        totalPrice = totalPrice.subtract(discountPrice).add(feeShip);
+                    }
+
                 }else if(promotion.getType().equalsIgnoreCase("Vận Chuyển")){
                     totalPrice = totalPrice.add(feeShip).subtract(BigDecimal.valueOf(promotion.getValue()));
                 }
@@ -105,6 +111,7 @@ public class OrderServiceImpl implements OrderService {
                         .totalPrice(totalPrice)
                         .promotion(promotion)
                         .user(user)
+                        .userReceive(userReceive)
                         .paymentType(paymentType)
                         .build();
                 orderRepo.save(order);
@@ -113,13 +120,22 @@ public class OrderServiceImpl implements OrderService {
                     OrderDetail orderDetail = OrderDetail.builder()
                             .order(order)
                             .itemDetail(cartItem.getItemDetail())
-                            .color(cartItem.getItemDetail().getColor())
                             .quantity(cartItem.getQuantity())
-                            .size(cartItem.getItemDetail().getSize())
                             .price(cartItem.getItemDetail().getPrice().multiply(BigDecimal.valueOf(cartItem.getQuantity())))
                             .build();
                     orderDetailRepo.save(orderDetail);
                 }
+                BigDecimal dp = BigDecimal.valueOf(0);
+                if (promotion.getType().equalsIgnoreCase("Mua Hàng")){
+                    if (discountPrice.compareTo(BigDecimal.valueOf(promotion.getMaxValueDiscount()))>0){
+                        dp = BigDecimal.valueOf(promotion.getMaxValueDiscount());
+                    }else {
+                        dp = discountPrice;
+                    }
+                }else if(promotion.getType().equalsIgnoreCase("Vận Chuyển")){
+                    dp = BigDecimal.valueOf(promotion.getValue());
+                }
+
                 orderResponseDTO = OrderResponseDTO.builder()
                         .orderId(order.getId())
                         .orderCode(order.getOrderCode())
@@ -127,6 +143,9 @@ public class OrderServiceImpl implements OrderService {
                         .phoneNumber(order.getPhoneNumber())
                         .shipAddress(order.getShipAddress())
                         .totalPrice(order.getTotalPrice())
+                        .discountPrice(dp)
+                        .feeShip(feeShip)
+                        .userReceive(userReceive)
                         .paymentType(order.getPaymentType())
                         .build();
             }
@@ -149,9 +168,7 @@ public class OrderServiceImpl implements OrderService {
                     OrderDetail orderDetail = OrderDetail.builder()
                             .order(order)
                             .itemDetail(_cartItem.getItemDetail())
-                            .color(_cartItem.getItemDetail().getColor())
                             .quantity(_cartItem.getQuantity())
-                            .size(_cartItem.getItemDetail().getSize())
                             .price(_cartItem.getItemDetail().getPrice().multiply(BigDecimal.valueOf(cartItem.getQuantity())))
                             .build();
                     orderDetailRepo.save(orderDetail);
@@ -163,6 +180,9 @@ public class OrderServiceImpl implements OrderService {
                         .phoneNumber(order.getPhoneNumber())
                         .shipAddress(order.getShipAddress())
                         .totalPrice(order.getTotalPrice())
+                        .discountPrice(BigDecimal.valueOf(0))
+                        .userReceive(userReceive)
+                        .feeShip(feeShip)
                         .paymentType(order.getPaymentType())
                         .build();
             }
@@ -170,10 +190,6 @@ public class OrderServiceImpl implements OrderService {
             for (CartItem cartItem: cartItems) {
                 cartItemRepo.delete(cartItem);
             }
-        }else {
-            throw new ResponseStatusException(HttpStatus.valueOf(400),"Hết Hàng Hoặc Số Lượng Yêu Cầu Lớn Hơn Số Lượng Hiện Tại");
-        }
-
         return orderResponseDTO;
     }
 
@@ -199,7 +215,7 @@ public class OrderServiceImpl implements OrderService {
                         .build();
                 itemDetailOrderResponses.add(itemDetailOrderResponse);
             }
-            User user =userRepo.findById(userId).get();
+
             OrderDetailResponseDTO orderDetailResponseDTO = OrderDetailResponseDTO.builder()
                     .orderId(order.getId())
                     .orderCode(order.getOrderCode())
@@ -207,8 +223,9 @@ public class OrderServiceImpl implements OrderService {
                     .listItems(itemDetailOrderResponses)
                     .totalPrice(order.getTotalPrice())
                     .orderStatus(order.getStatus())
-                    .phoneNumber(user.getPhoneNumber())
-                    .address(user.getAddress())
+                    .phoneNumber(order.getPhoneNumber())
+                    .address(order.getShipAddress())
+                    .userReceive(order.getUserReceive())
                     .build();
             orderDetailResponseDTOS.add(orderDetailResponseDTO);
         }
@@ -418,13 +435,14 @@ public class OrderServiceImpl implements OrderService {
         for (OrderDetail orderDetail: orderDetails) {
             Item item = itemRepo.findById(orderDetail.getItemDetail().getItem().getId()).get();
             ItemImage image = itemImageRepo.findFirstByItemDetail_Id(orderDetail.getItemDetail().getId());
+            ItemDetail detail = itemDetailRepo.findById(orderDetail.getItemDetail().getId()).get();
             ItemInOrderResponseDTO itemInOrderResponseDTO =ItemInOrderResponseDTO.builder()
                     .itemId(item.getId())
                     .itemName(item.getName())
                     .itemImage(image.getImage())
                     .material(item.getMaterial())
-                    .size(orderDetail.getSize())
-                    .color(orderDetail.getColor())
+                    .size(detail.getSize())
+                    .color(detail.getColor())
                     .orderQuantity(orderDetail.getQuantity())
                     .price(orderDetail.getPrice())
                     .build();

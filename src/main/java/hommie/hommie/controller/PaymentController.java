@@ -41,12 +41,13 @@ public class PaymentController {
                                                         @RequestParam String shipAddress,
                                                         @RequestParam BigDecimal feeShip,
                                                         @RequestParam String phoneNumber,
-                                                        @RequestParam String promoCode) {
-        return paymentService.getPaymentMomoV1(codeOrder, feeShip, userId, totalPrice, paymentType, shipAddress,phoneNumber,promoCode);
+                                                        @RequestParam String promoCode,
+                                                        @RequestParam String userReceive) {
+        return paymentService.getPaymentMomoV1(codeOrder, feeShip, userId, totalPrice, paymentType, shipAddress,phoneNumber,promoCode,userReceive);
     }
 
 
-    @GetMapping("/MomoConfirm/{userId}/{feeShip}/{paymentType}/{shipAddress}/{phoneNumber}/{promoCode}")
+    @GetMapping("/MomoConfirm/{userId}/{feeShip}/{paymentType}/{shipAddress}/{phoneNumber}/{promoCode}//{userReceive}")
     @PermitAll
     public ResponseEntity<MomoConfirmResultResponse> momoConfirm(
             @PathVariable Long userId,
@@ -55,6 +56,7 @@ public class PaymentController {
             @PathVariable String shipAddress,
             @PathVariable String phoneNumber,
             @PathVariable String promoCode,
+            @PathVariable String userReceive,
             @RequestParam("partnerCode") String partnerCode,
             @RequestParam("orderId") String orderId,
             @RequestParam("requestId") String requestId,
@@ -90,7 +92,7 @@ public class PaymentController {
                 msg = "giao dich duoc xac nhan, giao dich thang cong!";
                 System.out.println(paymentType);
                 if (paymentType.equalsIgnoreCase("Trả Trước")) {
-                    orderService.createOrder(userId,feeShip,paymentType,shipAddress,phoneNumber,promoCode);
+                    orderService.createOrder(userId,feeShip,paymentType,shipAddress,phoneNumber,promoCode, userReceive);
                 }
             } else if (momoConfirmResultResponse.getResultCode() == 1006) {
                 msg = "người dùng từ chối giao dịch!";

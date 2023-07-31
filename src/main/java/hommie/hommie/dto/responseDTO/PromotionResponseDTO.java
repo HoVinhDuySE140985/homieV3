@@ -20,7 +20,10 @@ public class PromotionResponseDTO {
     private LocalDate dateStart;
     private LocalDate dateExp;
     private String description;
-    private Double value;
+    private float value;
+    private float minValueOrder;
+    private float maxValueDiscount;
+    private int quantity;
     private String status;
 
 }

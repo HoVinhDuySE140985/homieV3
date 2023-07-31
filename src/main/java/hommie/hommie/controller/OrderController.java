@@ -29,9 +29,10 @@ public class OrderController {
                                                            @RequestParam @Validated BigDecimal feeShip,
                                                            @RequestParam @Validated Long userId,
                                                            @RequestParam @Validated String phoneNumber,
-                                                           @RequestParam @Validated String promoCode){
+                                                           @RequestParam @Validated String promoCode,
+                                                           @RequestParam String userReceive){
         ResponseDTO responseDTO = new ResponseDTO();
-        responseDTO.setData(orderService.createLinkOrder(feeShip,totalPrice,paymentType,shipAddress,userId,phoneNumber,promoCode));
+        responseDTO.setData(orderService.createLinkOrder(feeShip,totalPrice,paymentType,shipAddress,userId,phoneNumber,promoCode,userReceive));
         return ResponseEntity.ok().body(responseDTO);
     }
 
@@ -42,10 +43,11 @@ public class OrderController {
                                                    @RequestParam String paymentType,
                                                    @RequestParam String shipAddress,
                                                    @RequestParam String phoneNumber,
-                                                   @RequestParam String promoCode){
+                                                   @RequestParam String promoCode,
+                                                   @RequestParam String userReceive){
         ResponseDTO responseDTO = new ResponseDTO();
 
-        responseDTO.setData(orderService.createOrder(Long.parseLong(userId),feeShip,paymentType,shipAddress,phoneNumber,promoCode));
+        responseDTO.setData(orderService.createOrder(Long.parseLong(userId),feeShip,paymentType,shipAddress,phoneNumber,promoCode,userReceive));
         return ResponseEntity.ok().body(responseDTO);
     }
 
@@ -61,6 +63,15 @@ public class OrderController {
     @PostMapping("get-all-order")
     @PreAuthorize("hasRole('OWNER')")
     public ResponseEntity<ResponseDTO> getAllOrder(){
+        ResponseDTO responseDTO = new ResponseDTO();
+        responseDTO.setData(orderService.getAllOrder());
+        responseDTO.setResult(orderService.getAllOrder().size());
+        return ResponseEntity.ok().body(responseDTO);
+    }
+
+    @PostMapping("get-all-user-info-in-order")
+    @PreAuthorize("hasRole('OWNER')")
+    public ResponseEntity<ResponseDTO> getAllUserInfoInOrder(){
         ResponseDTO responseDTO = new ResponseDTO();
         responseDTO.setData(orderService.getAllOrder());
         responseDTO.setResult(orderService.getAllOrder().size());
