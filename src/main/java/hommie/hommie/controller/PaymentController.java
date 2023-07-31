@@ -90,7 +90,6 @@ public class PaymentController {
                 msg = "giao dich thanh cong";
             } else if (momoConfirmResultResponse.getResultCode() == 9000) {
                 msg = "giao dich duoc xac nhan, giao dich thang cong!";
-                System.out.println(paymentType);
                 if (paymentType.equalsIgnoreCase("Trả Trước")) {
                     orderService.createOrder(userId,feeShip,paymentType,shipAddress,phoneNumber,promoCode, userReceive);
                 }
@@ -108,7 +107,7 @@ public class PaymentController {
             e.printStackTrace();
         }
         HttpHeaders headers = new HttpHeaders();
-        headers.setLocation(URI.create(redirectUrl)); // deploy lên thì chạy về trang cần trả về
+        headers.setLocation(URI.create("https://www.youtube.com/")); // deploy lên thì chạy về trang cần trả về
         return new ResponseEntity<>(headers, HttpStatus.MOVED_PERMANENTLY);
     }
 
