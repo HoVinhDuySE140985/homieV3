@@ -454,18 +454,18 @@ public class OrderServiceImpl implements OrderService {
         return list;
     }
 
-//    @Override
-//    public UserInOrderResponseDTO getAllUserInfoInOrder(String orderCode) {
-//        Order order = orderRepo.findByOrderCode(orderCode);
-//        User user = userRepo.findById(order.getUser().getId()).get();
-//        UserInOrderResponseDTO userInOrderResponseDTO = UserInOrderResponseDTO.builder()
-//                .orderId(order.getId())
-//                .emailOrder(user.getEmail())
-//                .userOrder(user.getName())
-//                .userReceive(order.getUserReceive())
-//                .phoneNumber(order.getPhoneNumber())
-//                .shipAddress(order.getShipAddress())
-//                .build();
-//        return userInOrderResponseDTO;
-//    }
+    @Override
+    public UserInOrderResponseDTO getAllUserInfoInOrder(String orderCode) {
+        Order order = orderRepo.findByOrderCode(orderCode);
+        User user = userRepo.findById(order.getUser().getId()).get();
+        UserInOrderResponseDTO userInOrderResponseDTO = UserInOrderResponseDTO.builder()
+                .orderId(order.getId())
+                .emailOrder(user.getEmail())
+                .userOrder(user.getName())
+                .userReceive(order.getUserReceive())
+                .phoneNumber(order.getPhoneNumber())
+                .shipAddress(order.getShipAddress())
+                .build();
+        return userInOrderResponseDTO;
+    }
 }
