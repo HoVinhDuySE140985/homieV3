@@ -159,6 +159,7 @@ public class OrderServiceImpl implements OrderService {
                         .orderDate(LocalDate.now())
                         .phoneNumber(phoneNumber)
                         .shipAddress(shipAddress)
+                        .userReceive(userReceive)
                         .status("Chờ Xử Lý")
                         .totalPrice(totalPrice)
                         .user(user)
