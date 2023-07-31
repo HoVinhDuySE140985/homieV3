@@ -70,7 +70,7 @@ public class PaymentController {
             @RequestParam("responseTime") String responseTime,
             @RequestParam("extraData") String extraData,
             @RequestParam("signature") String signature) {
-        String redirectUrl = "https://hommie.page.link/success"; // success
+        String redirectUrl = "https://www.youtube.com/"; // success
         String sign = "accessKey=" +
                 Common.ACCESS_KEY + "&orderId=" + orderId + "&partnerCode=" + Common.PARTNER_CODE
                 + "&requestId=" + requestId;
