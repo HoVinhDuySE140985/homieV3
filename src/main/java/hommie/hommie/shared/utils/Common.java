@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Getter
 public class Common {
 
-    public static final String IPN_URL_MOMO = "https://tiemhommie-0835ad80e9db.herokuapp.com/api/v1/MomoConfirm";
+    public static final String IPN_URL_MOMO = "https://hommie.page.link/success";
 //    public static final String REDIRECT_URL_MOMO = "https://lobster-app-uadur.ondigitalocean.app/api/v1/MomoConfirm";
     public static final String REDIRECT_URL_MOMO = "https://tiemhommie-0835ad80e9db.herokuapp.com/api/v1/MomoConfirm";
     public static final String PARTNER_CODE = "MOMOM1IH20220922";
