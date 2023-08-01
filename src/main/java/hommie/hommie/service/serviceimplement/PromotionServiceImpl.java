@@ -99,7 +99,6 @@ public class PromotionServiceImpl implements PromotionService {
         }
         return list;
     }
-
     @Override
     public String deletePromo(Long promoId) {
         String mess = "";
@@ -112,5 +111,26 @@ public class PromotionServiceImpl implements PromotionService {
             mess = "Xóa Thành Công";
         }
         return mess;
+    }
+
+    @Override
+    public PromotionResponseDTO getPromotionInfo(String proCode) {
+        Promotion promotion = promotionRepo.findByCode(proCode);
+        PromotionResponseDTO promotionResponseDTO = PromotionResponseDTO.builder()
+                .id(promotion.getId())
+                .image(promotion.getImage())
+                .type(promotion.getType())
+                .title(promotion.getTitle())
+                .code(promotion.getCode())
+                .value(promotion.getValue())
+                .dateStart(promotion.getDateStart())
+                .dateExp(promotion.getDateExp())
+                .description(promotion.getDescription())
+                .quantity(promotion.getQuantity())
+                .minValueOrder(promotion.getMinValueOrder())
+                .maxValueDiscount(promotion.getMaxValueDiscount())
+                .status(promotion.getStatus())
+                .build();
+        return promotionResponseDTO;
     }
 }

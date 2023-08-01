@@ -10,4 +10,6 @@ public interface PromotionService {
     List<PromotionResponseDTO> getAllPromotion(Long userId);
 
     String deletePromo(Long promoId);
+
+    PromotionResponseDTO getPromotionInfo(String proCode);
 }

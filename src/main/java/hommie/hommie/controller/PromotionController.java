@@ -10,6 +10,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.security.PermitAll;
+import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/api/promotion")
@@ -42,4 +43,13 @@ public class PromotionController {
         responseDTO.setData(promotionService.deletePromo(promoId));
         return ResponseEntity.ok().body(responseDTO);
     }
+
+    @GetMapping("get-promotion-info")
+    @PermitAll
+    public  ResponseEntity<ResponseDTO> getPromotionInfo(@RequestParam @Valid String  proCode){
+        ResponseDTO responseDTO = new ResponseDTO();
+        responseDTO.setData(promotionService.getPromotionInfo(proCode));
+        return ResponseEntity.ok().body(responseDTO);
+    }
+
 }
