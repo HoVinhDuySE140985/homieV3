@@ -145,7 +145,7 @@ public class ItemServiceImpl implements ItemService {
             }
             SubCategory subCategory = subCategoryRepo.findById(item.getSubCategory().getId()).get();
             Category category = categoryRepo.findById(subCategory.getCategory().getId()).get();
-            if (item.getStatus().equalsIgnoreCase("ACTIVE")) {
+            if (!item.getStatus().equalsIgnoreCase("Ngừng Kinh Doanh")) {
                 List<ItemDetailResponseDTO> detailList = new ArrayList<>();
                 List<ItemDetail> details = itemDetailRepo.findAllByItem_Id(item.getId());
 //                if (details.isEmpty()){
@@ -206,7 +206,7 @@ public class ItemServiceImpl implements ItemService {
         for (Item item: itemList) {
             SubCategory subCategory = subCategoryRepo.findById(item.getSubCategory().getId()).get();
             Category category = categoryRepo.findById(subCategory.getCategory().getId()).get();
-            if (item.getStatus().equalsIgnoreCase("ACTIVE")) {
+            if (!item.getStatus().equalsIgnoreCase("Ngừng Kinh Doanh")) {
                 List<ItemDetailResponseDTO> dtos = new ArrayList<>();
                 List<ItemDetail> details = itemDetailRepo.findAllByItem_Id(item.getId());
                 for (ItemDetail itemDetail: details) {
