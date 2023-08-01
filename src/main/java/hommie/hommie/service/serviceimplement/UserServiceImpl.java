@@ -61,7 +61,7 @@ public class UserServiceImpl implements UserService {
                     .email(registerRequestDTO.getEmail())
                     .phoneNumber(registerRequestDTO.getPhoneNumber())
                     .password(encoder.encode(registerRequestDTO.getPassword()))
-                    .role(roleRepo.findById(3L).get())
+                    .role(roleRepo.findById(2L).get())
                     .build();
             userRepo.save(user);
 
