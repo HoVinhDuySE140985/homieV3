@@ -241,6 +241,7 @@ public class ItemServiceImpl implements ItemService {
                         .subName(subCategory.getName())
                         .cateId(category.getId())
                         .cateName(category.getName())
+                        .status(item.getStatus())
                         .build();
                 list.add(itemResponseDTO);
             }
