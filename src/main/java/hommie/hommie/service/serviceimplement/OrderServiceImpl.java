@@ -138,7 +138,6 @@ public class OrderServiceImpl implements OrderService {
                 }else if(promotion.getType().equalsIgnoreCase("Vận Chuyển")){
                     dp = BigDecimal.valueOf(promotion.getValue());
                 }
-
                 orderResponseDTO = OrderResponseDTO.builder()
                         .orderId(order.getId())
                         .orderCode(order.getOrderCode())
