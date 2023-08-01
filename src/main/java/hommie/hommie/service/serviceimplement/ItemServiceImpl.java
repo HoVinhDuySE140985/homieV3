@@ -289,7 +289,6 @@ public class ItemServiceImpl implements ItemService {
                         .material(item.getMaterial())
                         .createDate(item.getCreateDate())
                         .details(dtos)
-                        .status(item.getStatus())
                         .subId(subCategory.getId())
                         .subName(subCategory.getName())
                         .cateId(category.getId())
