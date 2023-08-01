@@ -184,6 +184,7 @@ public class ItemServiceImpl implements ItemService {
                         .cateId(category.getId())
                         .cateName(category.getName())
                         .buyNumber(count)
+                        .status(item.getStatus())
 //                        .checkNumber(check)
                         .build();
                 listItems.add(itemResponseDTO);
