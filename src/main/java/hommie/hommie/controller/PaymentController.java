@@ -70,7 +70,7 @@ public class PaymentController {
             @RequestParam("responseTime") String responseTime,
             @RequestParam("extraData") String extraData,
             @RequestParam("signature") String signature) {
-        String redirectUrl = "https://www.youtube.com/"; // success
+        String redirectUrl = "https://hommie.page.link/DwNd"; // success
         String sign = "accessKey=" +
                 Common.ACCESS_KEY + "&orderId=" + orderId + "&partnerCode=" + Common.PARTNER_CODE
                 + "&requestId=" + requestId;
@@ -107,7 +107,7 @@ public class PaymentController {
             e.printStackTrace();
         }
         HttpHeaders headers = new HttpHeaders();
-        headers.setLocation(URI.create("https://hommie.page.link/success")); // deploy lên thì chạy về trang cần trả về
+        headers.setLocation(URI.create(redirectUrl)); // deploy lên thì chạy về trang cần trả về
         return new ResponseEntity<>(headers, HttpStatus.MOVED_PERMANENTLY);
     }
 
