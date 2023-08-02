@@ -23,6 +23,5 @@ public class OrderDetailResponseDTO {
     private String userReceive;
     private String phoneNumber;
     private String address;
-//    private BigDecimal discountPrice;
-//    private BigDecimal feeShip;
+    private String reason;
 }

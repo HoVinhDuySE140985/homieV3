@@ -229,6 +229,7 @@ public class OrderServiceImpl implements OrderService {
                     .phoneNumber(order.getPhoneNumber())
                     .address(order.getShipAddress())
                     .userReceive(order.getUserReceive())
+                    .reason(order.getCancelReason())
                     .build();
             orderDetailResponseDTOS.add(orderDetailResponseDTO);
         }
