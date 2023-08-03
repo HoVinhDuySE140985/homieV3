@@ -95,7 +95,7 @@ public class PaymentController {
                 }
             } else if (momoConfirmResultResponse.getResultCode() == 1006) {
                 msg = "người dùng từ chối giao dịch!";
-                redirectUrl = "https://www.youtube.com/"; // fail
+                redirectUrl = "https://hommie.page.link/r394"; // fail
             }
 
             https://test-payment.momo.vn/v2/gateway/redirect?amount=30000&message=Giao%20d%E1%BB%8Bch%20%C4%91%C3%A3%20%C4%91%C6%B0%E1%BB%A3c%20x%C3%A1c%20nh%E1%BA%ADn%20th%C3%A0nh%20c%C3%B4ng.&orderId=Hommie6vQAtEh11j&partnerCode=MOMOM1IH20220922&requestType=captureWallet&resultCode=9000&sid=1V9ephvpNoAwKSGYmHFf68DD&subscriptionInfo=&subscriptionName=
