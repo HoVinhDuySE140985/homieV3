@@ -23,4 +23,6 @@ public interface ItemService {
     List<ItemResponseDTO> getTopItem();
 
     List<ItemResponseDTO> getAllItem();
+
+    String deleteItem(Long itemId);
 }

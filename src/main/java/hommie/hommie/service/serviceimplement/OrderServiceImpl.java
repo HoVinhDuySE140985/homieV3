@@ -230,6 +230,7 @@ public class OrderServiceImpl implements OrderService {
                     .address(order.getShipAddress())
                     .userReceive(order.getUserReceive())
                     .reason(order.getCancelReason())
+                    .paymentType(order.getPaymentType())
                     .build();
             orderDetailResponseDTOS.add(orderDetailResponseDTO);
         }

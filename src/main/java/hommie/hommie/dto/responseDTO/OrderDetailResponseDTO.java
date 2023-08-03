@@ -24,4 +24,5 @@ public class OrderDetailResponseDTO {
     private String phoneNumber;
     private String address;
     private String reason;
+    private String paymentType;
 }

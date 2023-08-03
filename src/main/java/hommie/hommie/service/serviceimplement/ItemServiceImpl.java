@@ -37,6 +37,7 @@ public class ItemServiceImpl implements ItemService {
 
     @Autowired
     OrderDetailRepo orderDetailRepo;
+    private List<ItemDetail> details;
 
     @Override
     public CreateItemResponseDTO createItem(CreateItemRequestDTO createItemRequestDTO) {  // sua
@@ -78,19 +79,14 @@ public class ItemServiceImpl implements ItemService {
     public String updateStatus(Long itemId) {
         String mess = "Cập Nhập Thất Bại";
         Item item = itemRepo.findById(itemId).get();
-        List<ItemDetail> details = itemDetailRepo.findAllByItem_Id(item.getId());
-        if (details.size()==0){
-            if (item.getStatus().equalsIgnoreCase("Còn Hàng")) {
-                item.setStatus("Tạm Hết Hàng");
-                itemRepo.save(item);
-                mess = "Cập Nhập Thành Công";
-            } else if (item.getStatus().equalsIgnoreCase("Tạm Hết Hàng")){
-                item.setStatus("Ngừng Kinh Doanh");
-                itemRepo.save(item);
-                mess = "Cập Nhập Thành Công";
-            }
-        }else {
-            throw new ResponseStatusException(HttpStatus.valueOf(200),"Sản Phẩm Còn Hàng Không Thể Cập Nhập");
+        if (item.getStatus().equalsIgnoreCase("Còn Hàng")) {
+            item.setStatus("Tạm Hết Hàng");
+            itemRepo.save(item);
+            mess = "Cập Nhập Thành Công";
+        } else if (item.getStatus().equalsIgnoreCase("Tạm Hết Hàng")){
+            item.setStatus("Còn Hàng");
+            itemRepo.save(item);
+            mess = "Cập Nhập Thành Công";
         }
         return mess;
     }
@@ -301,5 +297,21 @@ public class ItemServiceImpl implements ItemService {
                 list.add(itemResponseDTO);
         }
         return list;
+    }
+
+    @Override
+    public String deleteItem(Long itemId) {
+        String mes = "Xóa Sản Phẩm Thất Bại";
+        Item item = itemRepo.findById(itemId).get();
+        item.setStatus("Ngừng Kinh Doanh");
+        itemRepo.save(item);
+        mes= "Xóa Sản Phẩm Thành Công";
+        List<ItemDetail> itemDetails = itemDetailRepo.findAllByItem_Id(itemId);
+        for (ItemDetail itemDetail: itemDetails) {
+            ItemDetail detail = itemDetailRepo.findById(itemDetail.getId()).get();
+            detail.setStatus("DEACTIVE");
+            itemDetailRepo.save(detail);
+        }
+        return mes;
     }
 }

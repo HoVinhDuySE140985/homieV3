@@ -119,4 +119,13 @@ public class ItemController {
         responseDTO.setResult(list.size());
         return ResponseEntity.ok().body(responseDTO);
     }
+
+    @DeleteMapping("Delete_Item")
+    @PreAuthorize("hasRole('OWNER')")
+    public ResponseEntity<ResponseDTO> deleteItem(Long itemId){
+        ResponseDTO responseDTO = new ResponseDTO();
+        responseDTO.setData(itemService.deleteItem(itemId));
+        return ResponseEntity.ok().body(responseDTO);
+
+    }
 }
