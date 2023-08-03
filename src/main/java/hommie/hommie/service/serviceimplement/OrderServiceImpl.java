@@ -399,8 +399,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public List<OrderDetailResponseDTO> searchOrderByOrderCode(String orderCode) {
-        List<OrderDetailResponseDTO> orderDetailResponseDTOS = new ArrayList<>();
+    public OrderDetailResponseDTO searchOrderByOrderCode(String orderCode) {
         Order order = orderRepo.findByOrderCode(orderCode);
         List<OrderDetail> orderDetails = orderDetailRepo.findAllByOrder_Id(order.getId());
         List<ItemDetailOrderResponse> itemDetailOrderResponses = new ArrayList<>();
@@ -427,8 +426,8 @@ public class OrderServiceImpl implements OrderService {
                 .totalPrice(order.getTotalPrice())
                 .orderStatus(order.getStatus())
                 .build();
-        orderDetailResponseDTOS.add(orderDetailResponseDTO);
-        return orderDetailResponseDTOS;
+
+        return orderDetailResponseDTO;
     }
 
     @Override

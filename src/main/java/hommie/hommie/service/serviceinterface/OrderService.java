@@ -24,7 +24,7 @@ public interface OrderService {
     String cancelOrder(Long orderId, String cancelReason);
 
     List<RevenueResponseDTO> revenueCalculation(String month, String year);
-    List<OrderDetailResponseDTO> searchOrderByOrderCode(String orderCode);
+    OrderDetailResponseDTO searchOrderByOrderCode(String orderCode);
 
     List<ItemInOrderResponseDTO> getAllItemInOrder(String orderCode);
 

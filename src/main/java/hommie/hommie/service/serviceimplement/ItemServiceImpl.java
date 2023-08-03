@@ -277,7 +277,7 @@ public class ItemServiceImpl implements ItemService {
                             .id(itemDetail.getId())
                             .size(itemDetail.getSize())
                             .color(itemDetail.getColor())
-                            .quantity(itemDetail.getQuantity())
+//                            .quantity(itemDetail.getQuantity())
                             .itemImages(listI)
                             .price(itemDetail.getPrice())
                             .description(itemDetail.getDescription())
