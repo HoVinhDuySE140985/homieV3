@@ -19,7 +19,6 @@ public class FeedBack {
     private Long id;
     @Column(length = 500)
     private String content;
-    private String email;
 
     @JsonIgnore
     @ManyToOne(fetch = FetchType.EAGER)

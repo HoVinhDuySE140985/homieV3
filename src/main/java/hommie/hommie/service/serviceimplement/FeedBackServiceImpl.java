@@ -26,14 +26,12 @@ public class FeedBackServiceImpl implements FeedBackService {
         User user = userRepo.findUserByEmail(email);
         if (user == null){
             FeedBack feedBack = FeedBack.builder()
-                    .email(email)
                     .content(content)
                     .build();
             feedBackRepo.save(feedBack);
             mess = "Gửi FeedBack Thành Công ";
         }else {
             FeedBack feedBack = FeedBack.builder()
-                    .email(email)
                     .content(content)
                     .user(user)
                     .build();
