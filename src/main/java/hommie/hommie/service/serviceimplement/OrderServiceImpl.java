@@ -336,6 +336,7 @@ public class OrderServiceImpl implements OrderService {
     public String cancelOrder(Long orderId, String cancelReason) {
         String mess = "Hủy Đơn Hàng Thất Bại";
         Order order = orderRepo.findById(orderId).get();
+        User user = userRepo.findById(order.getUser().getId()).get();
         if (order.getStatus().equalsIgnoreCase("Chờ Xử Lý")){
             order.setStatus("Hủy Đơn Hàng");
             order.setCancelReason(cancelReason);
@@ -347,6 +348,7 @@ public class OrderServiceImpl implements OrderService {
                 itemDetail.setQuantity(itemDetail.getQuantity()+orderDetail.getQuantity());
                 itemDetailRepo.save(itemDetail);
             }
+            notificationService.sendNotification(user.getId(), "Xác Nhận", "Đơn Hàng Của Bạn Đã Bị Hủy");
         }
         return mess;
     }
