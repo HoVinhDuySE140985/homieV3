@@ -55,6 +55,7 @@ public class SubCategoryServiceImpl implements SubCategoryService {
                     .name(subCategory.getName())
                     .status(subCategory.getStatus())
                     .cateId(subCategory.getCategory().getId())
+                    .cateName(categoryRepo.findById(subCategory.getCategory().getId()).get().getName())
                     .build();
             listSubcategory.add(dto);
         }
@@ -71,6 +72,7 @@ public class SubCategoryServiceImpl implements SubCategoryService {
                     .name(subCate.getName())
                     .status(subCate.getStatus())
                     .cateId(subCate.getCategory().getId())
+                    .cateName(categoryRepo.findById(subCate.getCategory().getId()).get().getName())
                     .build();
             listSubcategory.add(dto);
         }

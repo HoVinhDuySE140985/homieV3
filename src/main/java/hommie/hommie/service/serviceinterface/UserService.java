@@ -24,4 +24,6 @@ public interface UserService {
 
     String loginWithGoogle(OAuth2Request data, String fcmKey);
 
+    String logout(String userName);
+
 }

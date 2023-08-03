@@ -86,4 +86,11 @@ public class UserController {
         return ResponseEntity.ok().body(responseDTO);
     }
 
+    @PutMapping("logout")
+    @PreAuthorize("hasAnyRole('OWNER','CUSTOMER')")
+    public ResponseEntity<ResponseDTO> logout(@RequestParam @Valid String userName){
+        ResponseDTO responseDTO = new ResponseDTO();
+        responseDTO.setData(userService.logout(userName));
+        return ResponseEntity.ok().body(responseDTO);
+    }
 }

@@ -290,4 +290,17 @@ public class UserServiceImpl implements UserService {
         }
         return false;
     }
+
+    @Override
+    public String logout(String userName) {
+        String mess = "Đăng Xuất Thất Bại";
+        User user = userRepo.findUserByEmail(userName);
+        if(user.getTokenDevice()!=null || user.getVerificationCode()!=null){
+            user.setVerificationCode("");
+            user.setTokenDevice("");
+            userRepo.save(user);
+            mess = "Đăng Xuất Thành Công ";
+        }
+        return mess;
+    }
 }

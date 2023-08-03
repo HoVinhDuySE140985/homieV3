@@ -14,4 +14,5 @@ public class SubCategoryResponseDTO {
     private String name;
     private String status;
     private Long cateId;
+    private String cateName;
 }
