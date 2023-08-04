@@ -82,10 +82,22 @@ public class ItemServiceImpl implements ItemService {
         if (item.getStatus().equalsIgnoreCase("Còn Hàng")) {
             item.setStatus("Tạm Hết Hàng");
             itemRepo.save(item);
+            List<ItemDetail> itemDetails = itemDetailRepo.findAllByItem_Id(itemId);
+            for (ItemDetail itemDetail: itemDetails) {
+                ItemDetail detail = itemDetailRepo.findById(itemDetail.getId()).get();
+                detail.setStatus("DEACTIVE");
+                itemDetailRepo.save(detail);
+            }
             mess = "Cập Nhập Thành Công";
         } else if (item.getStatus().equalsIgnoreCase("Tạm Hết Hàng")){
             item.setStatus("Còn Hàng");
             itemRepo.save(item);
+            List<ItemDetail> itemDetails = itemDetailRepo.findAllByItem_Id(itemId);
+            for (ItemDetail itemDetail: itemDetails) {
+                ItemDetail detail = itemDetailRepo.findById(itemDetail.getId()).get();
+                detail.setStatus("ACTIVE");
+                itemDetailRepo.save(detail);
+            }
             mess = "Cập Nhập Thành Công";
         }
         return mess;
