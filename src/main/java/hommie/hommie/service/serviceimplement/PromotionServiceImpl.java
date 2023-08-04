@@ -64,8 +64,12 @@ public class PromotionServiceImpl implements PromotionService {
     @Override
     public List<PromotionResponseDTO> getAllPromotion(Long userId) {
         List<PromotionResponseDTO> list = new ArrayList<>();
-        List<Promotion> promotionList = promotionRepo.findAll();
+        List<Promotion> promotionList = new ArrayList<>();
+        if (null==userId){
+            promotionList = promotionRepo.findAll();
+        }
         if(userId!=null){
+            promotionList = promotionRepo.findAll();
             List<Order> orderList = orderRepo.findAllByUser_Id(userId);
             for (Order order: orderList) {
                 if( null != order.getPromotion()){
